@@ -1,0 +1,10 @@
+1. Create name.yaml
+ansible-vault create name.yaml
+
+2. Put password
+
+3. Run ansible-playbook indicating a encrypted yaml
+ansible-playbook --ask-vault-pass name.yml
+
+3. Run ansible-playbook indicating file containing password
+ansible-playbook --vault-password-file=vault-pass-file name.yml

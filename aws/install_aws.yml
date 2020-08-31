@@ -1,0 +1,31 @@
+---
+- name: Install AWS 
+  hosts: mymachine
+  gather_facts: no
+  tasks: 
+  - name: Install unzip
+    package:
+      name: unzip
+      state: latest
+  - name: Download aws cli
+    get_url:
+      url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: /root/awscliv2.zip
+  - name: Unzip aws cli
+    unarchive:
+      src: /root/awscliv2.zip
+      dest: /root/
+      remote_src: yes
+  - name: Install aws cli
+    command:
+      cmd: bash /root/aws/install
+    ignore_errors: yes
+  - name: Delete aws files previously downloaded
+    shell: rm -rf /root/aws*
+  - name: Check aws version
+    command: aws --version
+    register: aws_version
+  - name: AWS version output
+    debug:
+      msg: "{{ aws_version.stdout  }}"
+...

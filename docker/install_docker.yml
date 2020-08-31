@@ -1,0 +1,24 @@
+---
+- name: Install docker CentOS / RHEL
+  hosts: all
+  gather_facts: no
+  tasks: 
+  - name: Install docker
+    package:
+      name: docker
+      state: latest
+  - name: Enable and start docker
+    service:
+      name: docker
+      enabled: yes
+      state: started
+  - name: Install docker compose
+    get_url:
+      url: https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      remote_src: yes
+  - name: Executable permissions to docker-compose
+    file:
+      path: /usr/local/bin/docker-compose
+      mode: +x
+...

@@ -1,0 +1,15 @@
+---
+- name: using multiple complex conditions
+  hosts: all
+  tasks:
+    - name: removing package
+      package: 
+        name: httpd
+        state: removed
+      when: >
+        ( ansible_distribution == 'RedHat' and
+          ansible_memfree_mb > 10000 )
+        or
+        ( ansible_distribution == 'CentOS' and
+          ansible_memfree_mb > 100 )
+

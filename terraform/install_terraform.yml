@@ -1,0 +1,34 @@
+---
+- name: Install Terraform CentOS / RHEL
+  hosts: mymachine
+  gather_facts: no
+  tasks: 
+  - name: Install yum-utils
+    package:
+      name: yum-utils
+      state: latest
+  - name: Add the official HashiCorp Linux repository
+    get_url:
+      url: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+      dest: /etc/yum.repos.d/hashicorp.repo
+  - name: Install Terraform
+    package:
+      name: terraform
+      state: latest
+  - name: Install unzip
+    package:
+      name: unzip
+      state: latest
+  - name: Download aws cli
+    get_url:
+      url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: /root/awscliv2.zip
+  - name: Unzip aws cli
+    unarchive:
+      src: /root/awscliv2.zip
+      dest: /root/
+      remote_src: yes
+  - name: Install aws cli
+    command:
+      cmd: bash /root/aws/install
+...
